@@ -20,6 +20,7 @@ import ProfilePage from '@/pages/ProfilePage';
 import SettingsPage from '@/pages/SettingsPage';
 import SharedNotesPage from '@/pages/SharedNotesPage';
 import NotFoundPage from '@/pages/NotFoundPage';
+import LiveCaptionsPage from '@/pages/LiveCaptionsPage';
 
 function App() {
   useEffect(() => {
@@ -68,6 +69,7 @@ function App() {
             <Route path="/history" element={<HistoryPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/live-captions" element={<LiveCaptionsPage />} />
           </Route>
 
           {/* 404 */}

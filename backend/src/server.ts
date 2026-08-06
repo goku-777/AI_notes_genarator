@@ -6,6 +6,8 @@ import { config } from './config/env';
 import { connectDB } from './config/database';
 import { setSocketIO } from './socket';
 import { transcribeLiveBuffer } from './services/liveTranscription.service';
+import { setupLiveCaptionsWs } from './websocket/liveCaptions.ws';
+import { shutdownWorker } from './services/liveCaptionWorker.service';
 
 // ── Transcription Queue ──────────────────────────────────────────────
 
@@ -100,8 +102,13 @@ const startServer = async (): Promise<void> => {
     );
   });
 
+  // Attach live-captions WebSocket server to the same HTTP server
+  setupLiveCaptionsWs(httpServer);
+
   const shutdown = (signal: string) => {
     console.log(`[server] Received ${signal}. Shutting down gracefully...`);
+
+    shutdownWorker();
 
     server.close(() => {
       console.log('[server] Server closed.');

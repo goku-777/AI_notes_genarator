@@ -8,6 +8,7 @@ import {
   User as UserIcon,
   Settings,
   Sparkles,
+  Captions,
   X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -16,6 +17,7 @@ const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/upload', label: 'Upload Recording', icon: Upload },
   { to: '/record', label: 'Live Recording', icon: Mic },
+  { to: '/live-captions', label: 'Live Captions', icon: Captions },
   { to: '/history', label: 'Meeting History', icon: History },
   { to: '/profile', label: 'Profile', icon: UserIcon },
   { to: '/settings', label: 'Settings', icon: Settings },
