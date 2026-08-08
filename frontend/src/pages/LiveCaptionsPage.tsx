@@ -35,7 +35,7 @@ const WS_BASE =
   import.meta.env.VITE_WS_BASE_URL ||
   (import.meta.env.VITE_API_BASE_URL
     ? import.meta.env.VITE_API_BASE_URL.replace('/api', '').replace('http', 'ws')
-    : 'ws://localhost:5000');
+    : window.location.origin.replace('http', 'ws'));
 
 const MAX_RECONNECT_ATTEMPTS = 5;
 const RECONNECT_BASE_DELAY_MS = 1000;

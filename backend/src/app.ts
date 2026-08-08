@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
+import path from 'path';
 import { config } from './config/env';
 import { apiLimiter } from './middleware/rateLimit.middleware';
 import { notFoundHandler, errorHandler } from './middleware/error.middleware';
@@ -23,7 +24,7 @@ const app: Application = express();
 app.use(helmet());
 app.use(
   cors({
-    origin: config.clientUrl,
+    origin: config.clientUrl || true,
     credentials: true,
   })
 );
@@ -58,7 +59,20 @@ app.use('/api/notes', notesRoutes);
 app.use('/api/export', exportRoutes);
 app.use('/api/search', searchRoutes);
 
+// ── Serve Frontend (production) ──────────────────────────────────────────────
+// In production the backend serves the Vite-built React app as static files.
+// Any request that doesn't match an /api route gets the SPA's index.html so
+// that client-side routing (React Router) works correctly.
+if (config.nodeEnv === 'production') {
+  const frontendDist = path.join(__dirname, '../../frontend/dist');
+  app.use(express.static(frontendDist));
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(frontendDist, 'index.html'));
+  });
+}
+
 app.use(notFoundHandler);
 app.use(errorHandler);
 
 export default app;
+
